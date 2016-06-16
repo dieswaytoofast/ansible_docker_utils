@@ -1,0 +1,15 @@
+---
+
+# Run the requested container
+- name: Run container {{ docker_name }}
+  command: "{{ paths.docker }} run {{ docker_extra_args }} {{ docker_volumes_from_args }} --privileged=True --net=weave
+             --name={{ docker_name }} --hostname={{ docker_name }}.{{ common.domain_name }} {{ docker_name }}"
+  register: result
+
+- debug: var=result.stdout_lines
+
+- name: Return only the build result
+  set_fact:
+    docker_result: "{{ result.stdout_lines }}"
+
+- debug: var=docker_result

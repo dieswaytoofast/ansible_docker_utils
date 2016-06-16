@@ -1,0 +1,18 @@
+#!/usr/bin/env /usr/bin/ansible-playbook
+---
+
+
+  # Get the ip address of the container
+- name: Get the containers ip address
+  command: {{ paths.weave }} dns-lookup {{ docker_name }}
+  register: result
+
+- debug: var=result
+
+- name: Return only the item
+  set_fact:
+    docker_result: "{{ result.stdout_lines }}"
+
+- debug: var=docker_result
+
+

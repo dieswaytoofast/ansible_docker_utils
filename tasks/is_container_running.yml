@@ -1,0 +1,22 @@
+---
+
+# Check if the container is running.  If it is, dont' run it
+- name: check if {{ docker_name }} exists
+  command: "{{ paths.docker }} ps -f name={{ docker_name }} --format {{ '{{' }}.Names{{ '}}' }}"
+  register: container_name
+
+- debug: var=container_name.stdout
+
+- name: Check if container is running
+  set_fact:
+    docker_container_is_running: True
+  when: "'{{ docker_name }}'  in container_name.stdout"
+
+- debug: var=docker_result
+
+- name: Check if container is Not running
+  set_fact:
+    docker_container_is_running: False
+  when: "'{{ docker_name }}' not in container_name.stdout"
+
+- debug: var=docker_result

@@ -1,0 +1,10 @@
+---
+
+# Try to stop it, even if it isn't running
+- name: Stop and remove a container
+  command: "{{ paths.docker }} rm -v -f {{ docker_name }}"
+  ignore_errors: yes
+  register: result
+
+- debug: var=result.stdout_lines
+
