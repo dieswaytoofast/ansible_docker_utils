@@ -4,7 +4,7 @@
 
   # Get the ip address of the container
 - name: Get the containers ip address
-  command: {{ paths.weave }} dns-lookup {{ docker_name }}
+  command: "{{ paths.weave }} dns-lookup {{ docker_name }}"
   register: result
 
 - debug: var=result
