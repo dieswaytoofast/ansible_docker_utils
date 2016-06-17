@@ -11,7 +11,7 @@
 
 - name: Return only the item
   set_fact:
-    docker_result: "{{ result.stdout_lines }}"
+    docker_result: "{{ result.stdout }}"
 
 - debug: var=docker_result
 
