@@ -17,6 +17,7 @@ Include
    * `docker_dockerfile`
    * `docker_build_args`
    * `docker_base_dir`
+   * `docker_domain_name`
    * `docker_volumes_from_args`
    * `paths.docker` (path do docker command. probably `/usr/bin/docker`
    * `paths.weave`  (path to `weave` command, probably `/usr/local/bin/weave`.  If you don't have Weave, don't use `get_container_ip_addr.yml`
