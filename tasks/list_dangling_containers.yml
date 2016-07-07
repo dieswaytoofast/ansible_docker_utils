@@ -1,13 +1,13 @@
 ---
 
-# Get a list of dangling volumes
-- name: Get the list dangling volumes
+# Get a list of dangling containers
+- name: Get the list dangling containers
   command: docker images -f "dangling=true" -q
   register: result
 
 - debug: var=result
 
-- name: Return only the dangling volumes
+- name: Return only the dangling containers
   set_fact:
     docker_result: "{{ result.stdout_lines }}"
 

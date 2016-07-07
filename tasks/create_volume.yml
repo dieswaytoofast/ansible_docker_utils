@@ -1,0 +1,40 @@
+---
+
+# Create the requested volume
+
+
+- name: By default {{ docker_name }} exists
+  set_fact:
+    volume_exists: true
+
+- name: By default docker_delete is false
+  set_fact:
+    docker_delete: false
+  when: docker_delete is not defined
+
+- name: Check if volume {{ docker_name }} exists
+  command: "{{ paths.docker }} volume inspect {{ docker_name }}"
+  register: command_result
+  failed_when: false
+
+- name: Does the volume {{ docker_name }} exist?
+  set_fact:
+    volume_exists: false
+  when: command_result|failed
+
+- name: Delete the volume {{ docker_name }} if requested, and it exists
+  command:  "{{ paths.docker }} volume rm {{ docker_name }}"
+  when: docker_delete and volume_exists
+
+- name: Reset docker_delete to prevent stomping
+  set_fact:
+    docker_delete: false
+    volume_exists: false
+  when: docker_delete
+
+- name: Create volume {{ docker_name }} if it doesn't exist
+  command: "{{ paths.docker }} volume create --name {{ docker_name }}"
+  when: not volume_exists
+  register: result
+
+- debug: var=result.stdout
