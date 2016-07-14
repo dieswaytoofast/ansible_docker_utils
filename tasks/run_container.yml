@@ -3,13 +3,29 @@
 # Run the requested container
 - name: Run container {{ docker_name }}
   command: "{{ paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
+             --name={{ docker_name }} --hostname={{ docker_name }}.{{ docker_domain_name }} {{ docker_name }} {{ docker_command }}"
+  when: docker_command is defined
+  register: result_with_command
+
+- debug: var=result.stdout_lines
+
+# Run the requested container
+- name: Run container {{ docker_name }}
+  command: "{{ paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
              --name={{ docker_name }} --hostname={{ docker_name }}.{{ docker_domain_name }} {{ docker_name }}"
-  register: result
+  when: docker_command is not defined
+  register: result_without_command
 
 - debug: var=result.stdout_lines
 
 - name: Return only the build result
   set_fact:
-    docker_result: "{{ result.stdout_lines }}"
+    docker_result: "{{ result_with_command.stdout_lines }}"
+  when: docker_command is defined
+
+- name: Return only the build result
+  set_fact:
+    docker_result: "{{ result_without_command.stdout_lines }}"
+  when: docker_command is not defined
 
 - debug: var=docker_result

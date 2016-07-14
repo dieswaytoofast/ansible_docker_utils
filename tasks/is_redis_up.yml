@@ -1,0 +1,32 @@
+---
+
+# Check if redis is up
+- name: Check if {{ docker_name }} is up
+  command: "{{ paths.docker }} exec {{ docker_name }} {{ paths.redis_cli }} ping"
+  register: result
+  when: docker_auth_required
+  until: "'NOAUTH Authentication required' in result.stdout"
+  retries: "{{ dockers_retries }}"
+  delay: "{{ docker_delay }}"
+
+- debug: var=result.stdout
+
+# Check if redis is up
+- name: Check if {{ docker_name }} is up
+  command: "{{ paths.docker }} exec {{ docker_name }} {{ paths.redis_cli }} ping"
+  register: result
+  when: not docker_auth_required
+  until: "'PONG' in result.stdout"
+  retries: "{{ docker_retries }}"
+  delay: "{{ docker_delay }}"
+
+- debug: var=result.stdout
+
+
+
+- name: Return status
+  set_fact:
+    docker_result: True
+  when: "'NOAUTH Authentication required' in result.stdout"
+
+- debug: var=docker_result

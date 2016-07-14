@@ -1,0 +1,12 @@
+---
+
+paths:
+  aws: /usr/local/bin/aws
+  docker: /usr/bin/docker
+  git: /usr/bin/git
+  pg_isready: /usr/lib/postgresql/9.5/bin/pg_isready
+  ps: /bin/ps
+  rabbitmqctl: /usr/lib/rabbitmq/bin/rabbitmqctl
+  redis_cli: /usr/local/bin/redis-cli
+  weave: /usr/local/bin/weave
+

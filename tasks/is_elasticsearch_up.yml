@@ -1,0 +1,28 @@
+---
+
+# Wait for the ES app to come up
+# Get the ip address of the container
+- name: Get the IP address of {{ docker_name }}
+  include: roles/ansible_docker_utils/tasks/get_container_ip_addr.yml
+
+- debug: var=docker_result
+
+
+- name: Check if {{ docker_name }} is up
+  uri:
+    url: "http://{{ docker_result }}:{{ docker_port }}"
+    status_code: 200
+    follow_redirects: all
+  register: result
+  until: result.status == 200
+  retries: "{{ docker_retries }}"
+  delay: "{{ docker_delay }}"
+
+- debug: var=result.json
+
+- name: Return status
+  set_fact:
+    docker_result: True
+  when: "'You Know, for Search' in result.json.tagline"
+
+- debug: var=docker_result
