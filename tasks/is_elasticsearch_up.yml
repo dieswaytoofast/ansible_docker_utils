@@ -4,6 +4,7 @@
 # Get the ip address of the container
 - name: Get the IP address of {{ docker_name }}
   include: roles/ansible_docker_utils/tasks/get_container_ip_addr.yml
+  # docker_name is already defined, so don't need to pass it in
 
 - debug: var=docker_result
 
