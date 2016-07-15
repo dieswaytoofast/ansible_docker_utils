@@ -2,7 +2,7 @@
 
 # Build the requested container
 - name: Create container {{ docker_name }}
-  command: "{{ paths.docker }} build -t {{ docker_name }} -f {{ docker_dockerfile }} {{ docker_build_args }} {{ docker_base_dir }}"
+  command: "{{ ansible_docker_utils_paths.docker }} build -t {{ docker_name }} -f {{ docker_dockerfile }} {{ docker_build_args }} {{ docker_base_dir }}"
   register: result
 
 - debug: var=result.stdout_lines

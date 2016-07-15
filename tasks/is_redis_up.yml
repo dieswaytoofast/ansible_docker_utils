@@ -2,7 +2,7 @@
 
 # Check if redis is up
 - name: Check if {{ docker_name }} is up
-  command: "{{ paths.docker }} exec {{ docker_name }} {{ paths.redis_cli }} ping"
+  command: "{{ ansible_docker_utils_paths.docker }} exec {{ docker_name }} {{ ansible_docker_utils_paths.redis_cli }} ping"
   register: result
   when: docker_auth_required
   until: "'NOAUTH Authentication required' in result.stdout"
@@ -13,7 +13,7 @@
 
 # Check if redis is up
 - name: Check if {{ docker_name }} is up
-  command: "{{ paths.docker }} exec {{ docker_name }} {{ paths.redis_cli }} ping"
+  command: "{{ ansible_docker_utils_paths.docker }} exec {{ docker_name }} {{ ansible_docker_utils_paths.redis_cli }} ping"
   register: result
   when: not docker_auth_required
   until: "'PONG' in result.stdout"

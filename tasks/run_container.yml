@@ -2,7 +2,7 @@
 
 # Run the requested container
 - name: Run container {{ docker_name }}
-  command: "{{ paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
+  command: "{{ ansible_docker_utils_paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
              --name={{ docker_name }} --hostname={{ docker_name }}.{{ docker_domain_name }} {{ docker_name }} {{ docker_command }}"
   when: docker_command is defined
   register: result_with_command
@@ -11,7 +11,7 @@
 
 # Run the requested container
 - name: Run container {{ docker_name }}
-  command: "{{ paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
+  command: "{{ ansible_docker_utils_paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
              --name={{ docker_name }} --hostname={{ docker_name }}.{{ docker_domain_name }} {{ docker_name }}"
   when: docker_command is not defined
   register: result_without_command

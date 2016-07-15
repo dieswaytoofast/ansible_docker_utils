@@ -2,7 +2,7 @@
 
 # Check if rabbitmq-server is up
 - name: Check if rabbitmq-server on {{ docker_name }} is up
-  command: "{{ paths.docker }} exec {{ docker_name }} ps ax"
+  command: "{{ ansible_docker_utils_paths.docker }} exec {{ docker_name }} ps ax"
   register: result
   until: "'rabbitmq-server' in result.stdout"
   retries: "{{ docker_retries }}"
@@ -13,7 +13,7 @@
 
 # Check if the Management Console is up
 - name: Check if the Management Console on {{ docker_name }} is up
-  command: "{{ paths.docker }} exec {{ docker_name }} {{ paths.rabbitmqctl }} status"
+  command: "{{ ansible_docker_utils_paths.docker }} exec {{ docker_name }} {{ ansible_docker_utils_paths.rabbitmqctl }} status"
   register: result
   until: "'RabbitMQ Management Console' in result.stdout"
   retries: "{{ docker_retries }}"
@@ -24,7 +24,7 @@
 
 # Check if the permissions have been set
 - name: Check if the permissions on vhost {{ docker_vhost }} on {{ docker_name }} is up
-  command: "{{ paths.docker }} exec {{ docker_name }} {{ paths.rabbitmqctl }} list_permissions -p {{ docker_vhost }}"
+  command: "{{ ansible_docker_utils_paths.docker }} exec {{ docker_name }} {{ ansible_docker_utils_paths.rabbitmqctl }} list_permissions -p {{ docker_vhost }}"
   register: result
   until: "'guest' in result.stdout"
   retries: "{{ docker_retries }}"

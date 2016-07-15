@@ -1,6 +1,6 @@
 ---
 
-paths:
+ansible_docker_utils_paths:
   aws: /usr/local/bin/aws
   docker: /usr/bin/docker
   git: /usr/bin/git

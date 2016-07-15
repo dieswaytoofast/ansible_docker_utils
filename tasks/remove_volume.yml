@@ -3,7 +3,7 @@
 # Remove the image (force it!)
 
 - name: Forcibly remove the volume {{ docker_name }}
-  command: "{{ paths.docker }} volume rm {{ docker_name }}"
+  command: "{{ ansible_docker_utils_paths.docker }} volume rm {{ docker_name }}"
   ignore_errors: true
   register: docker_result
 

@@ -2,7 +2,7 @@
 
 # Get a list of dangling containers
 - name: Get the list dangling containers
-  command: docker images -f "dangling=true" -q
+  command: "{{ ansible_docker_utils_paths.docker }} images -f 'dangling=true' -q"
   register: result
 
 - debug: var=result
