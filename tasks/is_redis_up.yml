@@ -24,7 +24,7 @@
 
 
 
-- name: Return status
+- name: Return status (hopefully "True")
   set_fact:
     docker_result: True
   when: "'NOAUTH Authentication required' in result.stdout"

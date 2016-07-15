@@ -10,7 +10,7 @@
 
 - debug: var=result.stdout
 
-- name: Return status
+- name: Return status (hopefully "True")
   set_fact:
     docker_result: True
   when: "'- accepting connections' in result.stdout"

@@ -5,7 +5,7 @@
 - name: Get the IP address of {{ docker_name }}
   include: roles/ansible_weave/tasks/weave_get_container_ip_address.yml
   vars:
-    weave_name: docker_name
+    weave_name: "{{ docker_name }}"
 
 - debug: var=weave_result
 
@@ -22,7 +22,7 @@
 
 - debug: var=result.json
 
-- name: Return status
+- name: Return status (hopefully "True")
   set_fact:
     docker_result: True
   when: "'You Know, for Search' in result.json.tagline"

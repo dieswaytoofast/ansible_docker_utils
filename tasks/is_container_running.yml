@@ -7,14 +7,14 @@
 
 - debug: var=container_name.stdout
 
-- name: Check if container is running
+- name: Container {{ docker_name }} *is* running
   set_fact:
     docker_container_is_running: True
   when: "'{{ docker_name }}'  in container_name.stdout"
 
 - debug: var=docker_result
 
-- name: Check if container is Not running
+- name: Container {{ docker_name }} *is* running
   set_fact:
     docker_container_is_running: False
   when: "'{{ docker_name }}' not in container_name.stdout"

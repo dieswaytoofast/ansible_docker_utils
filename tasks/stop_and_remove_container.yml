@@ -1,7 +1,7 @@
 ---
 
 # Try to stop it, even if it isn't running
-- name: Stop and remove a container
+- name: Stop and remove a container {{ docker_name }}
   command: "{{ paths.docker }} rm -v -f {{ docker_name }}"
   ignore_errors: yes
   register: result
