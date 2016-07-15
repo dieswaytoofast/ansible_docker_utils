@@ -3,15 +3,16 @@
 # Wait for the ES app to come up
 # Get the ip address of the container
 - name: Get the IP address of {{ docker_name }}
-  include: roles/ansible_docker_utils/tasks/get_container_ip_addr.yml
-  # docker_name is already defined, so don't need to pass it in
+  include: roles/ansible_weave/tasks/weave_get_container_ip_address.yml.yml
+  vars:
+    weave_name: docker_name
 
-- debug: var=docker_result
+- debug: var=weave_result
 
 
 - name: Check if {{ docker_name }} is up
   uri:
-    url: "http://{{ docker_result }}:{{ docker_port }}"
+    url: "http://{{ weave_result }}:{{ docker_port }}"
     status_code: 200
     follow_redirects: all
   register: result
