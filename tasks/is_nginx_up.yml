@@ -1,0 +1,51 @@
+---
+
+# Wait for the nginx app to come up
+# Get the ip address of the container
+- name: Get the IP address of {{ docker_name }}
+  include: roles/ansible_weave/tasks/weave_get_container_ip_address.yml
+  vars:
+    weave_name: "{{ docker_name }}"
+
+- debug: var=weave_result
+
+
+- name: Check if {{ docker_name }} is up
+  uri:
+    url: "http://{{ weave_result }}:{{ docker_port }}"
+    status_code: 200
+    follow_redirects: all
+  register: result
+  until: result.status == 200
+  retries: "{{ docker_retries }}"
+  delay: "{{ docker_delay }}"
+  when: not docker_auth_required
+
+- debug: var=result
+
+- name: Return status (hopefully "True")
+  set_fact:
+    docker_result: True
+  when: not docker_auth_required and "'OK' in result.msg"
+
+
+- name: Check if {{ docker_name }} is up
+  uri:
+    url: "http://{{ weave_result }}:{{ docker_port }}"
+    status_code: 401
+    follow_redirects: all
+  register: result
+  until: result.status == 401
+  retries: "{{ docker_retries }}"
+  delay: "{{ docker_delay }}"
+  when:  docker_auth_required
+
+- debug: var=result
+
+- name: Return status (hopefully "True")
+  set_fact:
+    docker_result: True
+  when:  docker_auth_required and "'Authorization Required' in result.msg"
+
+
+- debug: var=docker_result
