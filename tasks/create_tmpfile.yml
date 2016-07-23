@@ -1,0 +1,9 @@
+---
+
+- name: Make a temporary directory
+  command: "{{ ansible_docker_utils_paths.mktemp }}"
+  register: result
+
+- name: Return the path for the new directory - {{ result.stdout }}
+  set_fact:
+    docker_result: "{{ result.stdout }}"

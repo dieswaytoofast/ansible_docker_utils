@@ -4,6 +4,7 @@ ansible_docker_utils_paths:
   aws: /usr/local/bin/aws
   docker: /usr/bin/docker
   git: /usr/bin/git
+  mktemp: /bin/mktemp
   pg_isready: /usr/lib/postgresql/9.5/bin/pg_isready
   ps: /bin/ps
   rabbitmqctl: /usr/lib/rabbitmq/bin/rabbitmqctl
