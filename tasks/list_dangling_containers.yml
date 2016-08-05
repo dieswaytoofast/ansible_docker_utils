@@ -11,5 +11,3 @@
   set_fact:
     docker_result: "{{ result.stdout_lines }}"
 
-- debug: var=docker_result
-
