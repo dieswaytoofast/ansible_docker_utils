@@ -1,0 +1,46 @@
+---
+
+# Create the requested volume
+
+
+- name: By default {{ docker_name }} exists
+  set_fact:
+    network_exists: true
+
+- name: By default docker_delete is false
+  set_fact:
+    docker_delete: false
+  when: docker_delete is not defined
+
+- name: Check if network {{ docker_name }} exists
+  command: "{{ ansible_docker_utils_paths.docker }} network inspect {{ docker_name }}"
+  register: command_result
+  failed_when: false
+
+- name: Does the network {{ docker_name }} exist?
+  set_fact:
+    network_exists: false
+  when: command_result|failed
+
+- debug: var=(command_result.stdout|from_json)
+
+- fail: The network {{ docker_name }} does not exist with the right parameters
+  when: network_exists and ((command_result.stdout|from_json)[0]['Driver'] != "weavemesh" or (command_result.stdout|from_json)[0]['IPAM']['Driver'] != "weavemesh")
+
+- name: Delete the network {{ docker_name }} if requested, and it exists
+  command:  "{{ ansible_docker_utils_paths.docker }} network rm {{ docker_name }}"
+  when: docker_delete and network_exists
+
+- name: Reset docker_delete to prevent stomping
+  set_fact:
+    docker_delete: false
+    network_exists: false
+  when: docker_delete
+
+# e.g. docker network create --driver weavemesh --ipam-driver weavemesh --subnet 10.41.0.0/16 foob
+- name: Create network {{ docker_name }} if it doesn't exist
+  command: "{{ ansible_docker_utils_paths.docker }} network create --driver weavemesh --ipam-driver weavemesh --subnet {{ docker_cidr }} {{ docker_name }}"
+  when: not network_exists
+  register: result
+
+- debug: var=result.stdout
