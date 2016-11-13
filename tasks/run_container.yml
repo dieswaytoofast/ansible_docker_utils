@@ -1,18 +1,25 @@
 ---
+# Set the name to the image if it is not defined
+- name: Set container name if it is not defined
+  set_fact:
+    docker_container_name: docker_name
+  when: docker_container_name is not defined
 
 # Run the requested container
-- name: Run container {{ docker_name }}
+- name: Run container {{ docker_container_name }}
   command: "{{ ansible_docker_utils_paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
-             --name={{ docker_name }} --hostname={{ docker_name }}.{{ docker_domain_name }} {{ docker_name }} {{ docker_command }}"
+             --name={{ docker_container_name }} --hostname={{ docker_container_name }}.{{ docker_domain_name }} {{ docker_name }} {{ docker_command }}"
   when: docker_command is defined
   register: result_with_command
 
 - debug: var=result.stdout_lines
+- debug: var=docker_volume_args
+
 
 # Run the requested container
-- name: Run container {{ docker_name }}
+- name: Run container {{ docker_container_name }}
   command: "{{ ansible_docker_utils_paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
-             --name={{ docker_name }} --hostname={{ docker_name }}.{{ docker_domain_name }} {{ docker_name }}"
+             --name={{ docker_container_name }} --hostname={{ docker_container_name }}.{{ docker_domain_name }} {{ docker_name }}"
   when: docker_command is not defined
   register: result_without_command
 
