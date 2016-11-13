@@ -1,4 +1,5 @@
 ---
+
 # Set the name to the image if it is not defined
 - name: Set container name if it is not defined
   set_fact:
@@ -12,9 +13,6 @@
   when: docker_command is defined
   register: result_with_command
 
-- debug: var=result.stdout_lines
-
-
 # Run the requested container
 - name: Run container {{ docker_container_name }}
   command: "{{ ansible_docker_utils_paths.docker }} run {{ docker_extra_args }} {{ docker_volume_args }} --privileged=True
@@ -22,14 +20,12 @@
   when: docker_command is not defined
   register: result_without_command
 
-- debug: var=result.stdout_lines
-
-- name: Return only the command result
+- name: Return only the build result
   set_fact:
     docker_result: "{{ result_with_command.stdout_lines }}"
   when: docker_command is defined
 
-- name: Return only the command result
+- name: Return only the build result
   set_fact:
     docker_result: "{{ result_without_command.stdout_lines }}"
   when: docker_command is not defined
