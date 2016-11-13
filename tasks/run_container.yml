@@ -24,12 +24,12 @@
 
 - debug: var=result.stdout_lines
 
-- name: Return only the build result
+- name: Return only the command result
   set_fact:
     docker_result: "{{ result_with_command.stdout_lines }}"
   when: docker_command is defined
 
-- name: Return only the build result
+- name: Return only the command result
   set_fact:
     docker_result: "{{ result_without_command.stdout_lines }}"
   when: docker_command is not defined
