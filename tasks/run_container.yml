@@ -13,7 +13,6 @@
   register: result_with_command
 
 - debug: var=result.stdout_lines
-- debug: var=docker_volume_args
 
 
 # Run the requested container
