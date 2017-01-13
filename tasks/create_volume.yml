@@ -36,5 +36,3 @@
   command: "{{ ansible_docker_utils_paths.docker }} volume create --name {{ docker_name }}"
   when: not volume_exists
   register: result
-
-- debug: var=result.stdout

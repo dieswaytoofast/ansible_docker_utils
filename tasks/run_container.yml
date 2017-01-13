@@ -29,5 +29,3 @@
   set_fact:
     docker_result: "{{ result_without_command.stdout_lines }}"
   when: docker_command is not defined
-
-- debug: var=docker_result

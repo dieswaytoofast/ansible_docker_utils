@@ -5,8 +5,6 @@
   command: "{{ ansible_docker_utils_paths.docker }} images -f 'dangling=true' -q"
   register: result
 
-- debug: var=result
-
 - name: Return only the dangling containers
   set_fact:
     docker_result: "{{ result.stdout_lines }}"

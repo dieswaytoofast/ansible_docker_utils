@@ -6,5 +6,3 @@
   ignore_errors: yes
   register: result
 
-- debug: var=result.stdout_lines
-

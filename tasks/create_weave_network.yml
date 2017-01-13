@@ -1,6 +1,6 @@
 ---
 
-# Create the requested volume
+# Create the requested network
 
 
 - name: By default {{ docker_name }} exists
@@ -22,8 +22,6 @@
     network_exists: false
   when: command_result|failed
 
-- debug: var=(command_result.stdout|from_json)
-
 - fail: The network {{ docker_name }} does not exist with the right parameters
   when: network_exists and ((command_result.stdout|from_json)[0]['Driver'] != "weavemesh" or (command_result.stdout|from_json)[0]['IPAM']['Driver'] != "weavemesh")
 
@@ -42,5 +40,3 @@
   command: "{{ ansible_docker_utils_paths.docker }} network create --driver weavemesh --ipam-driver weavemesh --subnet {{ docker_cidr }} {{ docker_name }}"
   when: not network_exists
   register: result
-
-- debug: var=result.stdout

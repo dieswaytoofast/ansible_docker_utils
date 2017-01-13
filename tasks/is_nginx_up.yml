@@ -7,8 +7,6 @@
   vars:
     weave_name: "{{ docker_name }}"
 
-- debug: var=weave_result
-
 
 - name: Check if {{ docker_name }} is up
   uri:
@@ -20,8 +18,6 @@
   retries: "{{ docker_retries }}"
   delay: "{{ docker_delay }}"
   when: not docker_auth_required
-
-- debug: var=result
 
 - name: Return status (hopefully "True")
   set_fact:
@@ -40,12 +36,8 @@
   delay: "{{ docker_delay }}"
   when:  docker_auth_required
 
-- debug: var=result
-
 - name: Return status (hopefully "True")
   set_fact:
     docker_result: True
   when:  docker_auth_required and "'Authorization Required' in result.msg"
 
-
-- debug: var=docker_result
