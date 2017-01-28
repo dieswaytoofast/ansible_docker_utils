@@ -2,7 +2,7 @@
 
 # Check if postgres is up
 - name: Check if {{ docker_name }} is up
-  command: "{{ ansible_docker_utils_paths.docker }} exec {{ docker_name }} {{ ansible_docker_utils_paths.pg_isready }}"
+  command: "{{ ansible_docker_utils_paths_docker }} exec {{ docker_name }} {{ ansible_docker_utils_paths_pg_isready }}"
   until: "'- accepting connections' in result.stdout"
   register: result
   retries: "{{ docker_retries }}"

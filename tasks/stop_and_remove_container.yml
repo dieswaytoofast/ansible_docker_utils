@@ -2,7 +2,7 @@
 
 # Try to stop it, even if it isn't running
 - name: Stop and remove a container {{ docker_name }}
-  command: "{{ ansible_docker_utils_paths.docker }} rm -v -f {{ docker_name }}"
+  command: "{{ ansible_docker_utils_paths_docker }} rm -v -f {{ docker_name }}"
   ignore_errors: yes
   register: result
 

@@ -13,7 +13,7 @@
   when: docker_delete is not defined
 
 - name: Check if volume {{ docker_name }} exists
-  command: "{{ ansible_docker_utils_paths.docker }} volume inspect {{ docker_name }}"
+  command: "{{ ansible_docker_utils_paths_docker }} volume inspect {{ docker_name }}"
   register: command_result
   failed_when: false
 
@@ -23,7 +23,7 @@
   when: command_result|failed
 
 - name: Delete the volume {{ docker_name }} if requested, and it exists
-  command:  "{{ ansible_docker_utils_paths.docker }} volume rm {{ docker_name }}"
+  command:  "{{ ansible_docker_utils_paths_docker }} volume rm {{ docker_name }}"
   when: docker_delete and volume_exists
 
 - name: Reset docker_delete to prevent stomping
@@ -33,6 +33,6 @@
   when: docker_delete
 
 - name: Create volume {{ docker_name }} if it doesn't exist
-  command: "{{ ansible_docker_utils_paths.docker }} volume create --name {{ docker_name }}"
+  command: "{{ ansible_docker_utils_paths_docker }} volume create --name {{ docker_name }}"
   when: not volume_exists
   register: result
