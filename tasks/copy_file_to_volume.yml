@@ -1,0 +1,23 @@
+---
+
+- name: Check if the source file {{ docker_src_dir }}/{{ docker_src_file }} exists
+  stat:
+    path: "{{ docker_src_dir }}/{{ docker_src_file }}"
+  register: tempvar_src_file_info
+
+- fail: msg="{{ docker_src_dir }}/{{ docker_src_file }} doesn't exist"
+  when: not tempvar_src_file_info.stat.exists
+
+- name: Check if volume {{ docker_volume_name }} exists
+  command: "{{ ansible_docker_utils_paths_docker }} volume inspect {{ docker_volume_name }}"
+  register: command_result
+  failed_when: false
+
+- fail: msg="{{ docker_volume_name }} doesn't exist"
+  when: command_result|failed
+
+- name: Ensure that the path {{ docker_dest_dir }} exists in {{ docker_volume_name }}
+  command:  "{{ ansible_docker_utils_paths_docker }} run --rm -v {{ docker_volume_name }}:/destination busybox /bin/mkdir -p  /destination/{{ docker_dest_dir }}"
+
+- name: Copy {{ docker_src_dir }}/{{ docker_src_file }} to {{ docker_dest_dir }}/{{ docker_dest_file }} in {{ docker_volume_name }}
+  command:  "{{ ansible_docker_utils_paths_docker }} run --rm -v {{ docker_volume_name }}:/destination -v {{ docker_src_dir }}/{{ docker_src_file }}:/source busybox /bin/cp /source /destination/{{ docker_dest_dir }}/{{ docker_dest_file }}"
