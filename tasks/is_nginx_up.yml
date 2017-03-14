@@ -2,6 +2,7 @@
 
 # Wait for the nginx app to come up
 # Get the ip address of the container
+# validate_certs can be false 'cos we're just checking to see if you're up, not if you're valid
 - name: Get the IP address of {{ docker_name }}
   include: roles/ansible_weave/tasks/weave_get_container_ip_address.yml
   vars:
@@ -13,6 +14,7 @@
     url: "http://{{ weave_result }}:{{ docker_port }}"
     status_code: 200
     follow_redirects: all
+    validate_certs: false
   register: result
   until: result.status == 200
   retries: "{{ docker_retries }}"
@@ -30,6 +32,7 @@
     url: "http://{{ weave_result }}:{{ docker_port }}"
     status_code: 401
     follow_redirects: all
+    validate_certs: false
   register: result
   until: result.status == 401
   retries: "{{ docker_retries }}"
