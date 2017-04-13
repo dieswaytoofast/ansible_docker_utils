@@ -8,9 +8,9 @@
 - name: Container {{ docker_name }} *is* running
   set_fact:
     docker_container_is_running: True
-  when: "'{{ docker_name }}'  in container_name.stdout"
+  when: "docker_name in container_name.stdout"
 
 - name: Container {{ docker_name }} is *not* running
   set_fact:
     docker_container_is_running: False
-  when: "'{{ docker_name }}' not in container_name.stdout"
+  when: "docker_name not in container_name.stdout"
