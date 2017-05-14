@@ -4,7 +4,3 @@
 - name: Create container {{ docker_name }}
   command: "{{ ansible_docker_utils_paths_docker }} build -t {{ docker_name }} -f {{ docker_dockerfile }} {{ docker_build_args }} {{ docker_base_dir }}"
   register: result
-
-- name: Return only the build result
-  set_fact:
-    docker_result: "{{ result.stdout_lines }}"
