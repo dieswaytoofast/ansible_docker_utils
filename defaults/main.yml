@@ -1,4 +1,4 @@
----
+  ---
 
 ansible_docker_utils_paths_aws: /usr/local/bin/aws
 ansible_docker_utils_paths_docker: /usr/bin/docker
